@@ -1,0 +1,55 @@
+.pedidos {
+  margin-top: 5%;
+}
+
+
+.table-fixed tbody {
+  display: block;
+  height: 30vh;
+  overflow: auto;
+  text-align: center;
+}
+
+.table-div {
+  width: 70rem;
+}
+
+.table-fixed thead, .table-fixed tbody tr {
+  display: table;
+  width: 45rem;
+  text-align: center;
+}
+
+.tb-nome {
+  margin-left: 100%;
+}
+
+.resumo {
+  margin-top: 5%;
+  background-color: gray;
+  border-radius:5px;
+  height: 100%;
+}
+
+.input-total {
+  margin-bottom: 3%;
+}
+
+.btn-finalizar {
+  margin-top: 3%;
+  margin-left: 10%;
+}
+
+.input-valor-recebido {
+  margin-bottom: 5%;
+}
+
+.input-troco {
+  margin-bottom: 3%;
+}
+
+.aviso-venda-finalizada {
+  margin-left: 65%;
+  margin-top: 30%;
+  width: 100%;
+}

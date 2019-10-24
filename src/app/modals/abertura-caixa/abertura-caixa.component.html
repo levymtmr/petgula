@@ -1,0 +1,13 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Abertura Caixa</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="fecharModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="aberturaCaixaForm">
+     <input class="form-control" formControlName="valor_abertura">
+    <br>
+     <button class="btn btn-secondary" (click)="abrirCaixa()">Confirmar</button>
+  </form>
+</div>

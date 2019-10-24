@@ -1,0 +1,110 @@
+<app-sidebar>
+</app-sidebar>
+<div class="container">
+    <div class="container-fluid">
+        <form [formGroup]="clienteForm">
+            <select class="form-control" formControlName="cliente">
+                <option *ngFor="let cliente of clientes" value="{{cliente.id}}">{{cliente.nome}}</option>
+            </select>
+        </form>
+    </div>
+    <div class="row pedidos">
+        <div class="col-sm-4">
+            <div class="container" *ngIf="cliente">
+                <form [formGroup]="ordemForm">
+                    <label for="">Produto</label>
+                    <select class="form-control" formControlName="produto">
+                        <option *ngFor="let produto of produtos" value="{{produto.id}}">{{produto.nome}}</option>
+                    </select>
+                    <label for="">Quantidade</label>
+                    <input class="form-control" formControlName="quantidade">
+                    <label for="">Unidade</label>
+                    <select class="form-control" formControlName="unidade">
+                        <option value="KG">Kg</option>
+                        <option value="SC">SC</option>
+                        <option value="UND">Und</option>
+                    </select>
+                    <br>
+                    <button class="btn btn-secondary" (click)=" adicionarOrdemCarrinho()">Adicionar Produto</button>
+                </form>
+            </div>
+        </div>
+        <div clas="col-sm-8 table-div">
+            <table class="table table-striped table-fixed" *ngIf="carrinhoAtivo != null && vendaFinalizada== false">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Quantidade</th>
+                    <th scope="col">Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let ordem of produtoOrdems; let i = index">
+                    <th scope="row">{{i + 1}}</th>
+                    <td>{{ordem.produto.nome}}</td>
+                    <td>{{ordem.quantidade}}</td>
+                    <td>{{ordem.total}}</td>
+                    <td><button (click)="deletarOrdem(ordem.id)" class="btn"><i class="fas fa-trash"></i></button></td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="alert alert-primary aviso-venda-finalizada" role="alert" *ngIf="vendaFinalizada">
+                Venda Efetuada com Sucesso!
+            </div>
+        </div>
+        <div class="col-sm-12 resumo">
+            <div *ngIf="carrinhoAtivo">
+                <form action="" [formGroup]="resumoForm">
+                    <div class="row">
+                        <div class="col-md-2 input-total">
+                            <label for="">Total</label>
+                            <input class="form-control" formControlName="total" value="{{carrinhoAtivo.total}}">
+                            <div *ngIf="formaPagamento">
+                                <div class="row">
+                                    <div class="col-md-12 input-valor-recebido">
+                                        <label for="">Valor Recebido:</label>
+                                        <input class="form-control" type="text" formControlName="valor_recebido"
+                                               (change)="trocoParaRetornar()">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 input-troco">
+                                        <label for="">Troco:</label>
+                                        <input class="form-control" type="text" formControlName="troco"
+                                               value="{{ this.troco }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="">Forma de Pagamento</label><br>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio"
+                                       value="Dinheiro" formControlName="pagamento" (change)="tipoPagamento()">
+                                <label class="form-check-label">Dinheiro</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio"
+                                       value="Debito" formControlName="pagamento">
+                                <label class="form-check-label">Debito</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio"
+                                       value="Credito" formControlName="pagamento">
+                                <label class="form-check-label">Credito</label>
+                            </div>
+
+                        </div>
+                        <br>
+                        <div class="col-md-4 btn-finalizar">
+                            <button class="btn btn-secondary" (click)="finalizarVenda()">Finalizar Venda</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <h3>Valor Gaveta: {{caixa}}</h3>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,27 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4 login">
+            <form action="" [formGroup]="loginForm">
+                <img class="logo" src="assets/petgula.png" alt="">
+                <div class="row usuario">
+                    <div class="col-sm-1 fav-usuario">
+                        <i class="fas fa-user "></i>
+                    </div>
+                    <div class="col-sm-11">
+                        <input class="form-control input-login" type="text" formControlName="username" placeholder="usuário">
+                    </div>
+                </div>
+                <br>
+                <div class="row password">
+                    <div class="col-sm-1 fav-senha">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <div class="col-sm-11">
+                        <input class="form-control" type="password" formControlName="password" placeholder="••••••••••••">
+                    </div>
+                </div>
+                <button class="btn btn-secondary btn-login" (click)="login()">Entrar</button>
+            </form>
+        </div>
+    </div>
+</div>

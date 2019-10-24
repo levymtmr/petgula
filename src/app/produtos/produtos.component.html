@@ -1,0 +1,44 @@
+<app-sidebar>
+</app-sidebar>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4" [formGroup]="produtoForm">
+            <h3>Produto Form</h3>
+            <label for="">Nome</label>
+            <input class="form-control" type="text" formControlName="nome">
+            <label for="">Quantidade</label>
+            <input class="form-control" type="text" formControlName="quantidade">
+            <label for="">Valor Compra</label>
+            <input class="form-control" type="text" formControlName="valor_compra">
+            <label for="">Valor Venda</label>
+            <input class="form-control" type="text" formControlName="valor_venda">
+            <br>
+            <button class="btn btn-secondary" (click)="criarProduto()">Adicionar produto</button>
+            <br><br>
+            <div class="alert alert-primary" role="alert" *ngIf="produtoCriado">
+                Produto Adicionado com Sucesso!
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <h3>Produtos</h3>
+            <table class="table table-striped tb-produtos">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Quantidade</th>
+                    <th scope="col">Valor</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let produto of produtos; let i = index">
+                    <th scope="row">{{i + 1}}</th>
+                    <td>{{produto.nome}}</td>
+                    <td>{{produto.quantidade}}</td>
+                    <td>{{produto.valor_venda}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
