@@ -1,0 +1,50 @@
+<app-sidebar>
+</app-sidebar>
+<div class="row container-fluid justify-content-center align-items-center">
+    <div class="col">
+        <form [formGroup]="formData">
+            <input class="form-control" type="Date" formControlName="data">
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Data</th>
+                    <th scope="col">Descrição</th>
+                    <th scope="col">Valor</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let produto of produtos; let i = index">
+                    <th scope="row">{{i + 1}}</th>
+                    <td>{{produto.data}}</td>
+                    <td>{{produto.produto.nome}}</td>
+                    <td>{{produto.total}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div class="col">
+        <canvas id="myChart" width="100" height="50"></canvas>
+    </div>
+
+</div>
+<div class="row container-fluid">
+    <div class="col">
+        Melhores Produtos
+        <ul>
+            <li>1 - Areia de Gato Teddy Cat</li>
+            <li>2 - Pedigree Filhote</li>
+            <li>3 - Friskies Mix Carnes</li>
+        </ul>
+    </div>
+    <div class="col">
+        Melhores Clientes
+        <ul>
+            <li>1 - Eline Pinho</li>
+            <li>2 - Levy Mota</li>
+            <li>3 - Nico Mota</li>
+        </ul>
+    </div>
+</div>

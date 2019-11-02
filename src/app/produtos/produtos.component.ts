@@ -26,7 +26,7 @@ export class ProdutosComponent implements OnInit {
       quantidade: new FormControl(null, Validators.required),
       valor_compra: new FormControl(null, Validators.required),
       valor_venda: new FormControl(null, Validators.required)
-    })
+    });
   }
 
   async criarProduto() {

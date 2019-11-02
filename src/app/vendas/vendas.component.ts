@@ -128,7 +128,7 @@ export class VendasComponent implements OnInit {
             const cliente: Cliente = await this._apiService.get(`api/clientes/${cliente_id}`).toPromise();
             this.cliente = cliente;
             this.verificarCarrinhoAtivo(cliente.id);
-        })
+        });
     }
 
 
@@ -254,6 +254,7 @@ export class VendasComponent implements OnInit {
     async abrirCaixa() {
         try {
             const caixa = await this._apiService.get(`api/caixa/?data=` + this.data_hj).toPromise();
+            console.log("caixaaaa", caixa);
             if (caixa.length == 0) {
                 this.bsModalRef = this._modalService.show(AberturaCaixaComponent, this.modalConfig);
             }

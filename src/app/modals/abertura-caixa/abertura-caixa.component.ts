@@ -21,7 +21,7 @@ export class AberturaCaixaComponent implements OnInit {
     createFormAberturaCaixa() {
         this.aberturaCaixaForm = new FormGroup({
             valor_abertura: new FormControl(null, Validators.required)
-        })
+        });
     }
 
     fecharModal() {
@@ -36,7 +36,7 @@ export class AberturaCaixaComponent implements OnInit {
       const caixa = await this._apiService.post('api/caixa/', data).toPromise();
         this.fecharModal();
       } catch (error) {
-        console.log("error", error);
+        console.log('error', error);
       }
 
     }

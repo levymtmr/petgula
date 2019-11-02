@@ -18,6 +18,7 @@ import {AuthGuardService} from "./services/auth-guard.service";
 import {InterceptorService} from "./services/interceptor.service";
 import {LoginComponent} from "./login/login.component";
 import { HomeComponent } from './home/home.component';
+import { ResumoComponent } from './resumo/resumo.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { HomeComponent } from './home/home.component';
         AberturaCaixaComponent,
         ClientesComponent,
         LoginComponent,
-        HomeComponent
+        HomeComponent,
+        ResumoComponent
     ],
     entryComponents: [AberturaCaixaComponent],
     imports: [

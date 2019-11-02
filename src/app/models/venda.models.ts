@@ -1,10 +1,10 @@
-import {OrdemProduto} from "./ordem-produto.models";
+import {Carrinho} from './carrinho.models';
 
 export class Venda {
     constructor(
         public id: string,
         public cliente: number,
-        public ordem_produtos: OrdemProduto,
+        public carrinho: Carrinho,
         public total: number,
         public pagamento: string
     ) {
