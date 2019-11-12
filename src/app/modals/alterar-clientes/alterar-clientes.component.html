@@ -1,0 +1,11 @@
+<div>
+  <form [formGroup]="clienteForm">
+    <label for="">Nome</label>
+    <input class="form-control" type="text" formControlName="nome">
+    <label for="">Endereco</label>
+    <input class="form-control" type="text" formControlName="endereco">
+    <label for="">Telefone</label>
+    <input class="form-control" type="text" formControlName="telefone">
+    <button class="form-control" (click)="alteraCliente()">Alterar Cliente</button>
+  </form>
+</div>

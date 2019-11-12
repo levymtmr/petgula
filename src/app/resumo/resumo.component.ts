@@ -49,7 +49,7 @@ export class ResumoComponent implements OnInit {
         const myChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Janeiro', 'Fevereiro', 'Marco', 'Abril', 'Maio', 'Junho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'],
+                labels: ['Janeiro', 'Fevereiro', 'Marco', 'Abril', 'Maio', 'Junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'],
                 datasets: [{
                     label: '# Faturamento',
 

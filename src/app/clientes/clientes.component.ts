@@ -1,7 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {ApiService} from "../services/api.service";
-import {Cliente} from "../models/cliente.models";
+import {Component, EventEmitter, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ApiService} from '../services/api.service';
+import {Cliente} from '../models/cliente.models';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap';
+import {AlterarClientesComponent} from '../modals/alterar-clientes/alterar-clientes.component';
 
 @Component({
     selector: 'app-clientes',
@@ -12,10 +14,19 @@ export class ClientesComponent implements OnInit {
 
 
     clienteForm: FormGroup;
-    clienteCriado: boolean = false;
-    clientes: Cliente
+    clienteCriado = false;
+    clientes: Cliente;
 
-    constructor(private _apiService: ApiService) {
+
+    bsModalRef: BsModalRef;
+    config = {
+        animated: true,
+        keyboard: false,
+        backdrop: true,
+        ignoreBackdropClick: true
+    };
+
+    constructor(private _apiService: ApiService, private _modalService: BsModalService) {
     }
 
     ngOnInit() {
@@ -28,7 +39,7 @@ export class ClientesComponent implements OnInit {
             nome: new FormControl(null, Validators.required),
             endereco: new FormControl(null, Validators.required),
             telefone: new FormControl(null, Validators.required)
-        })
+        });
     }
 
     async criarCliente() {
@@ -45,7 +56,7 @@ export class ClientesComponent implements OnInit {
             console.log('Error', error);
         }
         setTimeout(() => {
-            this.clienteCriado = false
+            this.clienteCriado = false;
         }, 3000);
         this.todosClientes();
     }
@@ -53,12 +64,24 @@ export class ClientesComponent implements OnInit {
     async todosClientes() {
         try {
             const cliente = await this._apiService.get('api/clientes/').toPromise();
-            this.clientes = cliente
+            this.clientes = cliente;
 
         } catch (error) {
-            console.log("Error", error);
+            console.log('Error', error);
         }
+    }
+
+
+    async alterarCliente(id_cliente) {
+        const initialState = {
+            cliente: id_cliente
+        };
+        // inviar dados para o outro componente, componente da modal!!!
+        // Para ser possível fazer o patch alterando os dados
+        // Fazer a autenticacao, pois só será possível alterar os dados quem for usuario admin
+        this.bsModalRef = this._modalService.show(AlterarClientesComponent, {initialState});
 
     }
+
 
 }

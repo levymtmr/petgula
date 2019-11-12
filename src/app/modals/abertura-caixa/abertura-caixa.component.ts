@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {BsModalRef} from "ngx-bootstrap";
-import {ApiService} from "../../services/api.service";
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {BsModalRef} from 'ngx-bootstrap';
+import {ApiService} from '../../services/api.service';
 
 @Component({
     selector: 'app-abertura-caixa',

@@ -19,6 +19,8 @@ import {InterceptorService} from "./services/interceptor.service";
 import {LoginComponent} from "./login/login.component";
 import { HomeComponent } from './home/home.component';
 import { ResumoComponent } from './resumo/resumo.component';
+import { AlterarClientesComponent } from './modals/alterar-clientes/alterar-clientes.component';
+import { RegistrarUsuarioComponent } from './modals/registrar-usuario/registrar-usuario.component';
 
 
 @NgModule({
@@ -31,9 +33,11 @@ import { ResumoComponent } from './resumo/resumo.component';
         ClientesComponent,
         LoginComponent,
         HomeComponent,
-        ResumoComponent
+        ResumoComponent,
+        AlterarClientesComponent,
+        RegistrarUsuarioComponent
     ],
-    entryComponents: [AberturaCaixaComponent],
+    entryComponents: [AberturaCaixaComponent, AlterarClientesComponent, RegistrarUsuarioComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,

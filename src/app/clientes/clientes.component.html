@@ -3,6 +3,7 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-4" [formGroup]="clienteForm">
+            <h3>Adicionar Cliente</h3>
             <label for="">Nome</label>
             <input class="form-control" type="text" formControlName="nome">
             <label for="">Endereco</label>
@@ -28,7 +29,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let cliente of clientes; let i = index">
+                <tr (click)="alterarCliente(cliente.id)" *ngFor="let cliente of clientes; let i = index">
                     <th scope="row">{{i + 1}}</th>
                     <td>{{cliente.nome}}</td>
                     <td>{{cliente.endereco}}</td>

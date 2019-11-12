@@ -4,25 +4,28 @@
     <div class="col">
         <form [formGroup]="formData">
             <input class="form-control" type="Date" formControlName="data">
+            <div class="tb-resumo">
 
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Data</th>
-                    <th scope="col">Descrição</th>
-                    <th scope="col">Valor</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let produto of produtos; let i = index">
-                    <th scope="row">{{i + 1}}</th>
-                    <td>{{produto.data}}</td>
-                    <td>{{produto.produto.nome}}</td>
-                    <td>{{produto.total}}</td>
-                </tr>
-                </tbody>
-            </table>
+
+                <table class="table table-striped ">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Data</th>
+                        <th scope="col">Descrição</th>
+                        <th scope="col">Valor</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let produto of produtos; let i = index">
+                        <th scope="row">{{i + 1}}</th>
+                        <td>{{produto.data}}</td>
+                        <td>{{produto.produto.nome}}</td>
+                        <td>{{produto.total}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </form>
     </div>
     <div class="col">

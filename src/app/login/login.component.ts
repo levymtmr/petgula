@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {ApiService} from "../services/api.service";
-import {Usuario} from "../models/usuario.models";
-import {AuthService} from "../services/auth.service";
-import {Router} from "@angular/router";
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ApiService} from '../services/api.service';
+import {Usuario} from '../models/usuario.models';
+import {AuthService} from '../services/auth.service';
+import {Router} from '@angular/router';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap';
+import {RegistrarUsuarioComponent} from "../modals/registrar-usuario/registrar-usuario.component";
 
 @Component({
     selector: 'app-login',
@@ -15,7 +17,8 @@ export class LoginComponent implements OnInit {
     loginForm: FormGroup;
     private _usuario: Usuario = new Usuario();
 
-    constructor(private _apiService: ApiService, private _authService: AuthService, private _router:Router) {
+
+    constructor(private _apiService: ApiService, private _authService: AuthService, private _router: Router, private _modalService: BsModalService) {
     }
 
     ngOnInit() {
@@ -26,7 +29,7 @@ export class LoginComponent implements OnInit {
         this.loginForm = new FormGroup({
             username: new FormControl(null, Validators.required),
             password: new FormControl(null, Validators.required)
-        })
+        });
     }
 
     async login() {
@@ -35,8 +38,18 @@ export class LoginComponent implements OnInit {
             const password = this.loginForm.get('password').value;
             const token = await this._authService.login(username, password);
         } catch (error) {
-            console.log("Error", error);
+            console.log('Error', error);
         }
+    }
+
+    registrarNovoUsuario() {
+        const config = {
+        animated: true,
+        keyboard: false,
+        backdrop: true,
+        ignoreBackdropClick: true
+    };
+        this._modalService.show(RegistrarUsuarioComponent, config);
     }
 
 }

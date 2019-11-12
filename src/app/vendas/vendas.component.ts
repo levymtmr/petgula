@@ -1,15 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-import {ApiService} from "../services/api.service";
-import {Venda} from "../models/venda.models";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {Produto} from "../models/produto.models";
-import {Cliente} from "../models/cliente.models";
-import {OrdemProduto} from "../models/ordem-produto.models";
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ApiService} from '../services/api.service';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Produto} from '../models/produto.models';
+import {Cliente} from '../models/cliente.models';
+import {OrdemProduto} from '../models/ordem-produto.models';
 import * as moment from 'moment';
-import {Caixa} from "../models/caixa.models";
-import {BsModalRef, BsModalService, ModalOptions} from "ngx-bootstrap";
-import {AberturaCaixaComponent} from "../modals/abertura-caixa/abertura-caixa.component";
-import {Carrinho} from "../models/carrinho.models";
+import {Caixa} from '../models/caixa.models';
+import {BsModalRef, BsModalService, ModalOptions} from 'ngx-bootstrap';
+import {AberturaCaixaComponent} from '../modals/abertura-caixa/abertura-caixa.component';
+import {Carrinho} from '../models/carrinho.models';
 
 
 @Component({
@@ -49,7 +48,8 @@ export class VendasComponent implements OnInit {
     };
     data_hj = moment().format('L');
 
-    caixa: Caixa;
+    @Input() caixa: EventEmitter<Caixa> = new EventEmitter();
+    @Output() mudouValorCaixa = new EventEmitter();
 
     vendaFinalizada: boolean = false;
 
@@ -89,7 +89,7 @@ export class VendasComponent implements OnInit {
             quantidade: new FormControl(null, Validators.required),
             unidade: new FormControl(null, Validators.required),
             produto: new FormControl(null, Validators.required)
-        })
+        });
     }
 
     createResumoForm() {
@@ -98,7 +98,7 @@ export class VendasComponent implements OnInit {
             valor_recebido: new FormControl(null, Validators.required),
             troco: new FormControl(null, Validators.required),
             pagamento: new FormControl(null, Validators.required)
-        })
+        });
     }
 
     async todosClientes() {
@@ -224,7 +224,7 @@ export class VendasComponent implements OnInit {
             this.getValorEspecie();
             this.vendaFinalizada = true;
         } catch (error) {
-            console.log("Error", error);
+            console.log('Error', error);
         }
         setTimeout(()=> { this.vendaFinalizada = false }, 3000);
     }
@@ -254,8 +254,8 @@ export class VendasComponent implements OnInit {
     async abrirCaixa() {
         try {
             const caixa = await this._apiService.get(`api/caixa/?data=` + this.data_hj).toPromise();
-            console.log("caixaaaa", caixa);
-            if (caixa.length == 0) {
+            console.log('caixaaaa', caixa);
+            if (caixa.length === 0) {
                 this.bsModalRef = this._modalService.show(AberturaCaixaComponent, this.modalConfig);
             }
         } catch (error) {
@@ -265,8 +265,8 @@ export class VendasComponent implements OnInit {
 
     async getValorEspecie() {
         const caixa: Caixa = await this._apiService.get('api/fechar-caixa/?data=' + this.data_hj).toPromise();
-
         this.caixa = caixa[0].valor_especie;
+        this.mudouValorCaixa.emit(this.caixa);
     }
 
 }
