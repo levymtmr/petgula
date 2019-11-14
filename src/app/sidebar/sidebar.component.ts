@@ -4,7 +4,7 @@ import {ApiService} from '../services/api.service';
 import {JWTPayload} from '../models/jwt-payload.models';
 import {Usuario} from '../models/usuario.models';
 import {AuthService} from '../services/auth.service';
-import {VendasComponent} from '../vendas/vendas.component';
+import {CaixaService} from "../services/caixa.service";
 
 @Component({
     selector: 'app-sidebar',
@@ -17,16 +17,16 @@ export class SidebarComponent implements OnInit {
 
     caixa: any;
 
-    constructor(private _apiService: ApiService, private  _authService: AuthService, private _venda: VendasComponent) {
-
+    constructor(private _apiService: ApiService,
+                private  _authService: AuthService,
+                private _caixaService: CaixaService) {
     }
 
     async ngOnInit() {
         await this.decoderToken();
-        this._venda.mudouValorCaixa.subscribe(valor => {
-            this.caixa = valor;
+        this._caixaService.mudouValorCaixa.subscribe(valor_caixa => {
+            this.caixa = valor_caixa;
         });
-        console.log('recebe caixa', this.caixa);
     }
 
     openNav() {
