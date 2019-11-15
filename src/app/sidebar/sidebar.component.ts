@@ -4,7 +4,7 @@ import {ApiService} from '../services/api.service';
 import {JWTPayload} from '../models/jwt-payload.models';
 import {Usuario} from '../models/usuario.models';
 import {AuthService} from '../services/auth.service';
-import {CaixaService} from "../services/caixa.service";
+import {CaixaService} from '../services/caixa.service';
 
 @Component({
     selector: 'app-sidebar',
