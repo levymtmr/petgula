@@ -17,6 +17,8 @@ export class CaixaService {
     constructor(private _apiService: ApiService) {
     }
 
+    
+
     async getValorEspecie() {
         try {
             const caixa: Caixa = await this._apiService.get('api/fechar-caixa/?data=' + this.data_hj).toPromise();

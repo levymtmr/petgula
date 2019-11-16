@@ -7,6 +7,8 @@ import {AuthService} from '../services/auth.service';
 import {CaixaService} from '../services/caixa.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { RegistrarUsuarioComponent } from '../modals/registrar-usuario/registrar-usuario.component';
+import { Caixa } from '../models/caixa.models';
+import * as moment from 'moment';
 
 @Component({
     selector: 'app-sidebar',
@@ -14,12 +16,11 @@ import { RegistrarUsuarioComponent } from '../modals/registrar-usuario/registrar
     styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
-
+    data_hj = moment().format('L');
     usuario: any;
 
     caixa: any;
     
-
     constructor(private _apiService: ApiService,
                 private  _authService: AuthService,
                 private _caixaService: CaixaService,
@@ -28,6 +29,7 @@ export class SidebarComponent implements OnInit {
 
     async ngOnInit() {
         await this.decoderToken();
+        this.valorCaixaAtual();
         this._caixaService.mudouValorCaixa.subscribe(valor_caixa => {
             this.caixa = valor_caixa;
         });
@@ -41,6 +43,11 @@ export class SidebarComponent implements OnInit {
     closeNav() {
         document.getElementById('mySidenav').style.width = '0';
         document.getElementById('main').style.marginLeft = '0';
+    }
+
+    async valorCaixaAtual() {
+        const caixa: Caixa = await this._apiService.get('api/fechar-caixa/?data=' + this.data_hj).toPromise();
+        this.caixa = caixa[0]['valor_especie'];
     }
 
     async decoderToken() {
