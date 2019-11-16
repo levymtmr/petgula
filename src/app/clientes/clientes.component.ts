@@ -4,6 +4,7 @@ import {ApiService} from '../services/api.service';
 import {Cliente} from '../models/cliente.models';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {AlterarClientesComponent} from '../modals/alterar-clientes/alterar-clientes.component';
+import { ClienteService } from '../services/cliente.service';
 
 @Component({
     selector: 'app-clientes',
@@ -26,11 +27,18 @@ export class ClientesComponent implements OnInit {
         ignoreBackdropClick: true
     };
 
-    constructor(private _apiService: ApiService, private _modalService: BsModalService) {
+    constructor(
+        private _apiService: ApiService, 
+        private _modalService: BsModalService,
+        private _clienteService: ClienteService) {
     }
 
     ngOnInit() {
         this.todosClientes();
+        this._clienteService.mudouArrayClientes.subscribe(clientes => {
+            console.log("clientessss", clientes);
+            this.clientes = clientes;
+        });
         this.createClienteForm();
     }
 
@@ -42,14 +50,14 @@ export class ClientesComponent implements OnInit {
         });
     }
 
-    async criarCliente() {
+    async novoCliente() {
         try {
             const data = {
                 nome: this.clienteForm.get('nome').value,
                 endereco: this.clienteForm.get('endereco').value,
                 telefone: this.clienteForm.get('telefone').value
-            }
-            const cliente: Cliente = await this._apiService.post('api/clientes/', data).toPromise();
+            };
+            const cliente: Cliente = await this._clienteService.criarCliente(data);
             this.clienteCriado = true;
             this.clienteForm.reset();
         } catch (error) {

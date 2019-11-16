@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ApiService} from "../../services/api.service";
+import { ClienteService } from 'src/app/services/cliente.service';
 
 @Component({
     selector: 'app-alterar-clientes',
@@ -15,7 +16,8 @@ export class AlterarClientesComponent implements OnInit {
 
     constructor(private _modalService: BsModalService,
                 private _apiService: ApiService,
-                public _bsModalRef: BsModalRef) {
+                public _bsModalRef: BsModalRef,
+                public _clienteService: ClienteService) {
     }
 
     ngOnInit() {
@@ -47,8 +49,8 @@ export class AlterarClientesComponent implements OnInit {
             endereco: this.clienteForm.get('endereco').value,
             telefone: this.clienteForm.get('telefone').value
         };
-        const cliente = await this._apiService.patch(`api/clientes/${id_cliente}/`, data).toPromise();
-        this.fecharModal()
+        const cliente = await this._clienteService.mudarDados(data, id_cliente);
+        this.fecharModal();
     }
 
     fecharModal() {
