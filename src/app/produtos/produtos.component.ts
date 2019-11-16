@@ -33,6 +33,10 @@ export class ProdutosComponent implements OnInit {
     this.createProdutoForm();
 
     this.todosProdutos();
+
+    this._produtoService.mudouArrayProdutos.subscribe(produtos => {
+      this.produtos = produtos;
+    });
   }
 
   createProdutoForm() {
@@ -63,8 +67,8 @@ export class ProdutosComponent implements OnInit {
   }
 
   async todosProdutos() {
-    const produtos: Produto = await this._apiService.get('api/produtos/').toPromise();
-    this.produtos = produtos;
+    await this._produtoService.todosProdutos();
+    this.produtos = this._produtoService.produtos;
   }
 
   chamaModalEditarProduto(id) {

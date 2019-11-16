@@ -20,7 +20,7 @@ export class EditarProdutosComponent implements OnInit {
     private _modalService: BsModalService,
     private _apiService: ApiService,
     private _bsModalRef: BsModalRef,
-    private _produtoServie: ProdutoService) { }
+    private _produtoService: ProdutoService) { }
 
   ngOnInit() {
     this.criarProdutoFormulario();
@@ -38,7 +38,7 @@ export class EditarProdutosComponent implements OnInit {
   }
 
   async popuparDadosProduto() {
-    const produto = await this._apiService.get(`api/produtos/${this._produtoServie.id_produto}/`).toPromise();
+    const produto = await this._apiService.get(`api/produtos/${this._produtoService.id_produto}/`).toPromise();
     this.produtoForm.get('nome').setValue(produto.nome);
     this.produtoForm.get('quantidade').setValue(produto.quantidade);
     this.produtoForm.get('valor_compra').setValue(produto.valor_compra);
@@ -52,8 +52,8 @@ export class EditarProdutosComponent implements OnInit {
       valor_compra: this.produtoForm.get('valor_compra').value,
       valor_venda: this.produtoForm.get('valor_venda').value,
     };
-    const produto = await this._apiService.patch(`api/produtos/${this._produtoServie.id_produto}/`, data).toPromise();
-    console.log('produtosssss', produto);
+    const produto = await this._apiService.patch(`api/produtos/${this._produtoService.id_produto}/`, data).toPromise();
+    this._produtoService.todosProdutos();
     this.fecharModal();
   }
 
