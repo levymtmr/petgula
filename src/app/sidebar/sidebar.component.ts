@@ -44,7 +44,7 @@ export class SidebarComponent implements OnInit {
     }
 
     async decoderToken() {
-        const token = localStorage.getItem('token')
+        const token = localStorage.getItem('token');
         const decoderToken = <JWTPayload>jwtDecode(token);
         const usuario_id = decoderToken['user_id'];
         const usuario: Usuario = await this._apiService.get(`api/usuarios/${usuario_id}/`).toPromise();
