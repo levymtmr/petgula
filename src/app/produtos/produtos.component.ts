@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {Produto} from "../models/produto.models";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {ApiService} from "../services/api.service";
+import {Produto} from '../models/produto.models';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ApiService} from '../services/api.service';
+import { BsModalService, ModalOptions } from 'ngx-bootstrap';
+import { EditarProdutosComponent } from '../modals/editar-produtos/editar-produtos.component';
+import { ProdutoService } from '../services/produto.service';
 
 @Component({
   selector: 'app-produtos',
@@ -9,10 +12,22 @@ import {ApiService} from "../services/api.service";
   styleUrls: ['./produtos.component.scss']
 })
 export class ProdutosComponent implements OnInit {
+  // tslint:disable-next-line: no-shadowed-variable
   produtoForm: FormGroup;
-  produtoCriado: boolean = false;
+  produtoCriado = false;
   produtos: Produto;
-  constructor(private _apiService: ApiService) { }
+
+  modalConfig: ModalOptions = {
+    animated: true,
+    keyboard: false,
+    backdrop: false,
+    ignoreBackdropClick: true
+};
+
+  constructor(
+    private _apiService: ApiService, 
+    private _modalService: BsModalService,
+    private _produtoService: ProdutoService) { }
 
   ngOnInit() {
     this.createProdutoForm();
@@ -44,12 +59,19 @@ export class ProdutosComponent implements OnInit {
     } catch (e) {
       console.log(e)
     }
-    setTimeout(()=> { this.produtoCriado = false }, 3000);
+    setTimeout(() => { this.produtoCriado = false }, 3000);
   }
 
   async todosProdutos() {
     const produtos: Produto = await this._apiService.get('api/produtos/').toPromise();
     this.produtos = produtos;
+  }
+
+  chamaModalEditarProduto(id) {
+    this._produtoService.id_produto = id;
+    this._modalService.show(
+      EditarProdutosComponent, this.modalConfig
+    );
   }
 
 }

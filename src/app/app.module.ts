@@ -21,6 +21,7 @@ import { HomeComponent } from './home/home.component';
 import { ResumoComponent } from './resumo/resumo.component';
 import { AlterarClientesComponent } from './modals/alterar-clientes/alterar-clientes.component';
 import { RegistrarUsuarioComponent } from './modals/registrar-usuario/registrar-usuario.component';
+import { EditarProdutosComponent } from './modals/editar-produtos/editar-produtos.component';
 
 
 @NgModule({
@@ -35,9 +36,10 @@ import { RegistrarUsuarioComponent } from './modals/registrar-usuario/registrar-
         HomeComponent,
         ResumoComponent,
         AlterarClientesComponent,
-        RegistrarUsuarioComponent
+        RegistrarUsuarioComponent,
+        EditarProdutosComponent
     ],
-    entryComponents: [AberturaCaixaComponent, AlterarClientesComponent, RegistrarUsuarioComponent],
+    entryComponents: [AberturaCaixaComponent, AlterarClientesComponent, RegistrarUsuarioComponent, EditarProdutosComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,

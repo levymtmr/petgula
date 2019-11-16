@@ -5,6 +5,8 @@ import {JWTPayload} from '../models/jwt-payload.models';
 import {Usuario} from '../models/usuario.models';
 import {AuthService} from '../services/auth.service';
 import {CaixaService} from '../services/caixa.service';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { RegistrarUsuarioComponent } from '../modals/registrar-usuario/registrar-usuario.component';
 
 @Component({
     selector: 'app-sidebar',
@@ -16,10 +18,12 @@ export class SidebarComponent implements OnInit {
     usuario: any;
 
     caixa: any;
+    
 
     constructor(private _apiService: ApiService,
                 private  _authService: AuthService,
-                private _caixaService: CaixaService) {
+                private _caixaService: CaixaService,
+                private _modalService: BsModalService) {
     }
 
     async ngOnInit() {
@@ -50,6 +54,16 @@ export class SidebarComponent implements OnInit {
 
     sair() {
         this._authService.logout();
+    }
+
+    registrarNovoUsuario() {
+        const config = {
+            animated: true,
+            keyboard: false,
+            backdrop: true,
+            ignoreBackdropClick: true
+        };
+        this._modalService.show(RegistrarUsuarioComponent, config);
     }
 
 }

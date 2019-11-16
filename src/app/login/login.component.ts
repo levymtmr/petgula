@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {ApiService} from '../services/api.service';
-import {Usuario} from '../models/usuario.models';
-import {AuthService} from '../services/auth.service';
-import {Router} from '@angular/router';
-import {BsModalRef, BsModalService} from 'ngx-bootstrap';
-import {RegistrarUsuarioComponent} from "../modals/registrar-usuario/registrar-usuario.component";
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ApiService } from '../services/api.service';
+import { Usuario } from '../models/usuario.models';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { RegistrarUsuarioComponent } from "../modals/registrar-usuario/registrar-usuario.component";
 
 @Component({
     selector: 'app-login',
@@ -18,7 +18,11 @@ export class LoginComponent implements OnInit {
     private _usuario: Usuario = new Usuario();
 
 
-    constructor(private _apiService: ApiService, private _authService: AuthService, private _router: Router, private _modalService: BsModalService) {
+    constructor(
+        private _apiService: ApiService, 
+        private _authService: AuthService, 
+        private _router: Router, 
+        private _modalService: BsModalService) {
     }
 
     ngOnInit() {
@@ -42,14 +46,6 @@ export class LoginComponent implements OnInit {
         }
     }
 
-    registrarNovoUsuario() {
-        const config = {
-        animated: true,
-        keyboard: false,
-        backdrop: true,
-        ignoreBackdropClick: true
-    };
-        this._modalService.show(RegistrarUsuarioComponent, config);
-    }
+   
 
 }

@@ -1,11 +1,25 @@
-<div>
+<div class="modal-header">
+  <h5>Criar Novo Usuario</h5>
+  <button
+    type="button"
+    class="close pull-right"
+    aria-label="Close"
+    (click)="_bsModalRef.hide()"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
   <form action="" [formGroup]="usuarioForm">
     <label for="">Login</label>
-    <input class="form-control" type="text" formControlName="username">
+    <input class="form-control" type="text" formControlName="username" />
     <label for="">password</label>
-    <input class="form-control" type="text" formControlName="password">
+    <input class="form-control" type="text" formControlName="password" />
     <label for="">Email</label>
-    <input class="form-control" type="text" formControlName="email">
+    <input class="form-control" type="text" formControlName="email" />
   </form>
-  <button class="btn-secondary" (click)="registraNovoUsuario()">Registar Usuario</button>
+  <br />
+  <button class="btn btn-secondary" (click)="registraNovoUsuario()">
+    Registar Usuario
+  </button>
 </div>
