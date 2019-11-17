@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {Produto} from '../models/produto.models';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {ApiService} from '../services/api.service';
+import { Produto } from '../models/produto.models';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ApiService } from '../services/api.service';
 import { BsModalService, ModalOptions } from 'ngx-bootstrap';
 import { EditarProdutosComponent } from '../modals/editar-produtos/editar-produtos.component';
 import { ProdutoService } from '../services/produto.service';
+import { User } from '../models/user.models';
+import { TokenService } from '../services/token.service';
 
 @Component({
   selector: 'app-produtos',
@@ -16,20 +18,22 @@ export class ProdutosComponent implements OnInit {
   produtoForm: FormGroup;
   produtoCriado = false;
   produtos: Produto;
+  operador: User;
 
   modalConfig: ModalOptions = {
     animated: true,
     keyboard: false,
     backdrop: false,
     ignoreBackdropClick: true
-};
+  };
 
   constructor(
-    private _apiService: ApiService, 
+    private _apiService: ApiService,
     private _modalService: BsModalService,
-    private _produtoService: ProdutoService) { }
+    private _produtoService: ProdutoService,
+    private _tokenService: TokenService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.createProdutoForm();
 
     this.todosProdutos();
@@ -37,6 +41,7 @@ export class ProdutosComponent implements OnInit {
     this._produtoService.mudouArrayProdutos.subscribe(produtos => {
       this.produtos = produtos;
     });
+    this.operador = await this._tokenService.decoderToken();
   }
 
   createProdutoForm() {
@@ -51,12 +56,12 @@ export class ProdutosComponent implements OnInit {
   async criarProduto() {
     try {
       const data = {
-      nome: this.produtoForm.get('nome').value,
-      quantidade: this.produtoForm.get('quantidade').value,
-      valor_compra: this.produtoForm.get('valor_compra').value,
-      valor_venda: this.produtoForm.get('valor_venda').value
-    };
-    const produto: Produto = await this._apiService.post('api/produtos/', data).toPromise();
+        nome: this.produtoForm.get('nome').value,
+        quantidade: this.produtoForm.get('quantidade').value,
+        valor_compra: this.produtoForm.get('valor_compra').value,
+        valor_venda: this.produtoForm.get('valor_venda').value
+      };
+      const produto: Produto = await this._apiService.post('api/produtos/', data).toPromise();
       this.produtoCriado = true;
       await this.todosProdutos();
       this.produtoForm.reset();
@@ -72,10 +77,15 @@ export class ProdutosComponent implements OnInit {
   }
 
   chamaModalEditarProduto(id) {
-    this._produtoService.id_produto = id;
-    this._modalService.show(
-      EditarProdutosComponent, this.modalConfig
-    );
+    if (this.operador.is_staff) {
+      this._produtoService.id_produto = id;
+      this._modalService.show(
+        EditarProdutosComponent, this.modalConfig
+      );
+    } else {
+      alert('Você não tem permissão para alterar um produto');
+    }
+
   }
 
 }
