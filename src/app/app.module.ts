@@ -7,7 +7,7 @@ import {VendasComponent} from './vendas/vendas.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SidebarComponent} from './sidebar/sidebar.component';
 import {ProdutosComponent} from './produtos/produtos.component';
-import {AlertModule} from "ngx-bootstrap";
+import {AlertModule, TypeaheadModule} from "ngx-bootstrap";
 import {AberturaCaixaComponent} from './modals/abertura-caixa/abertura-caixa.component';
 import {ModalModule} from 'ngx-bootstrap/modal';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
@@ -21,6 +21,11 @@ import { HomeComponent } from './home/home.component';
 import { ResumoComponent } from './resumo/resumo.component';
 import { AlterarClientesComponent } from './modals/alterar-clientes/alterar-clientes.component';
 import { RegistrarUsuarioComponent } from './modals/registrar-usuario/registrar-usuario.component';
+<<<<<<< HEAD
+=======
+import { EditarProdutosComponent } from './modals/editar-produtos/editar-produtos.component';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+>>>>>>> e7c9e227... Adicionado caculo da quantidade quando for passado apenas o valor do produto
 
 
 @NgModule({
@@ -41,6 +46,7 @@ import { RegistrarUsuarioComponent } from './modals/registrar-usuario/registrar-
     imports: [
         BrowserModule,
         AppRoutingModule,
+        BrowserAnimationsModule,
         HttpClientModule,
         ReactiveFormsModule,
         AlertModule,
@@ -48,6 +54,7 @@ import { RegistrarUsuarioComponent } from './modals/registrar-usuario/registrar-
         ModalModule.forRoot(),
         FontAwesomeModule,
         FormsModule,
+        TypeaheadModule.forRoot(),
     ],
     providers: [TokenService, AuthService, AuthGuardService, InterceptorService,
         {

@@ -21,6 +21,16 @@
         </div>
         <div class="col-sm-4">
             <h3>Produtos</h3>
+            <input [(ngModel)]="asyncSelected"
+                   [typeaheadAsync]="true"
+                   [typeahead]="dataSource"
+                   (typeaheadLoading)="changeTypeaheadLoading($event)"
+                   (typeaheadOnSelect)="typeaheadOnSelect($event)"
+                   [typeaheadOptionsLimit]="7"
+                   typeaheadOptionField="name"
+                   placeholder="Nome do produto"
+                   class="form-control typeahead-produtos">
+            <div *ngIf="typeaheadLoading">Loading</div>
             <table class="table table-striped tb-produtos">
                 <thead>
                 <tr>
@@ -42,3 +52,5 @@
         </div>
     </div>
 </div>
+
+
