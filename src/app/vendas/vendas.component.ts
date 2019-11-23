@@ -81,14 +81,15 @@ export class VendasComponent implements OnInit {
     createFormCliente() {
         this.clienteForm = new FormGroup({
             cliente: new FormControl(null, Validators.required)
-        })
+        });
     }
 
     createOrdemForm() {
         this.ordemForm = new FormGroup({
             quantidade: new FormControl(null, Validators.required),
             unidade: new FormControl(null, Validators.required),
-            produto: new FormControl(null, Validators.required)
+            produto: new FormControl(null, Validators.required),
+            valor: new FormControl(null, Validators.required)
         });
     }
 
@@ -146,7 +147,8 @@ export class VendasComponent implements OnInit {
         this.carrinhoAtivo.ordem_produtos.forEach(element => {
             ordens_antigas.push(element);
         });
-        const novaOrdemCriada: OrdemProduto = await this.criarOrdem();
+        const valor = this.ordemForm.get('valor').value;
+        const novaOrdemCriada: OrdemProduto = await this.criarOrdem(valor);
         ordens_antigas.push(novaOrdemCriada.id);
         const data = {
             ordem_produtos: ordens_antigas
@@ -164,21 +166,30 @@ export class VendasComponent implements OnInit {
         }
     }
 
-    async adicionarOrdemCarrinho() {
+    async adicionarOrdemCarrinho(valor) {
         await this.verificarCarrinhoAtivo(this.cliente.id);
         if (this.carrinhoAtivo == null) {
-            const novaOrdem: OrdemProduto = await this.criarOrdem();
+            const novaOrdem: OrdemProduto = await this.criarOrdem(valor);
             await this.criarCarrinho(novaOrdem);
         } else {
             const ordemParaAdicionar = await this.adicionarOrdemCarrinhoExistente(this.carrinhoAtivo.id);
         }
     }
 
-    async criarOrdem() {
+    async transformaValorEmQuantidade(valor, id_produto) {
+        const produto: Produto = await this._apiService.get(`api/produtos/${id_produto}/`).toPromise();
+        const valor_transformado =  ((valor * 1000) / produto.valor_venda) / 1000;
+        this.ordemForm.get('quantidade').setValue(valor_transformado);
+        return valor_transformado.toFixed(2);
+    }
+
+    async criarOrdem(valor) {
+        const produto = await this.produtoPorId(this.ordemForm.get('produto').value);
+        const quantidade = await this.transformaValorEmQuantidade(valor, produto.id);
         try {
             const data = {
-                produto: await this.produtoPorId(this.ordemForm.get('produto').value),
-                quantidade: this.ordemForm.get('quantidade').value,
+                produto: produto,
+                quantidade: quantidade,
                 unidade: this.ordemForm.get('unidade').value
             };
             const ordem: OrdemProduto = await this._apiService.post('api/ordem-produtos/', data).toPromise();
@@ -226,12 +237,12 @@ export class VendasComponent implements OnInit {
             console.log('Error', error);
         }
         setTimeout(() => {
-            this.vendaFinalizada = false
+            this.vendaFinalizada = false;
         }, 3000);
     }
 
     tipoPagamento() {
-        if (this.resumoForm.get('pagamento').value == 'Dinheiro') {
+        if (this.resumoForm.get('pagamento').value === 'Dinheiro') {
             this.formaPagamento = true;
             this.trocoParaRetornar();
         }

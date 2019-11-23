@@ -19,6 +19,8 @@
                     </select>
                     <label for="">Quantidade</label>
                     <input class="form-control" formControlName="quantidade">
+                    <label for="">Valor</label>
+                    <input class="form-control" type="text" formControlName="valor">
                     <label for="">Unidade</label>
                     <select class="form-control" formControlName="unidade">
                         <option value="KG">Kg</option>
@@ -26,7 +28,7 @@
                         <option value="UND">Und</option>
                     </select>
                     <br>
-                    <button class="btn btn-secondary" (click)=" adicionarOrdemCarrinho()">Adicionar Produto</button>
+                    <button class="btn btn-secondary" (click)=" adicionarOrdemCarrinho(ordemForm.get('valor').value)">Adicionar Produto</button>
                 </form>
             </div>
         </div>

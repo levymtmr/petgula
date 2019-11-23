@@ -10,10 +10,10 @@ import { AuthGuardService } from './services/auth-guard.service';
 // @ts-ignore
 const routes: Routes = [
     {path: '', component: LoginComponent},
-    {path: 'vendas', component: VendasComponent, canActivate:[AuthGuardService]},
-    {path: 'produtos', component: ProdutosComponent, canActivate:[AuthGuardService]},
-    {path: 'clientes', component: ClientesComponent, canActivate:[AuthGuardService]},
-    {path: 'resumos', component: ResumoComponent, canActivate:[AuthGuardService]}
+    {path: 'vendas', component: VendasComponent, canActivate: [AuthGuardService]},
+    {path: 'produtos', component: ProdutosComponent, canActivate: [AuthGuardService]},
+    {path: 'clientes', component: ClientesComponent, canActivate: [AuthGuardService]},
+    {path: 'resumos', component: ResumoComponent, canActivate: [AuthGuardService]}
 ];
 
 @NgModule({
