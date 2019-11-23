@@ -1,4 +1,11 @@
-<div>
+<div class="modal-header">
+    <h5>Atualizar Cliente</h5>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="fecharModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="modal-body">
   <form [formGroup]="clienteForm">
     <label for="">Nome</label>
     <input class="form-control" type="text" formControlName="nome">
@@ -6,6 +13,8 @@
     <input class="form-control" type="text" formControlName="endereco">
     <label for="">Telefone</label>
     <input class="form-control" type="text" formControlName="telefone">
-    <button class="form-control" (click)="alteraCliente()">Alterar Cliente</button>
   </form>
+  <br>
+  <button class="form-control btn btn-secondary btn-lg btn-block" (click)="alteraCliente()">Alterar Cliente</button>
+
 </div>

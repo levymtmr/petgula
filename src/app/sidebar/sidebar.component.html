@@ -1,5 +1,5 @@
 <div id="mySidenav" class="sidenav">
-    <a class="fa fa-user-circle"> {{usuario}}</a>
+    <a class="fa fa-user-circle">  {{usuario}}</a>
 
 
     <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
@@ -7,13 +7,14 @@
     <a href="produtos">Produtos</a>
     <a href="clientes">Clientes</a>
     <a href="resumos">Resumo</a>
-    <a href="#">Contact</a>
+    <a (click)="registrarNovoUsuario()">Novos Usuarios</a>
     <br>
-    <a href="" class="fas fa-door-open" (click)="sair()"> Sair </a>
-
     <div>
         <a><small>Valor Gaveta: R$ {{caixa}}</small> </a>
     </div>
+    <a href="" class="fas fa-door-open btn-sair" (click)="sair()"> Sair </a>
+
+
 </div>
 
 <div id="main">

@@ -38,6 +38,7 @@ export class RegistrarUsuarioComponent implements OnInit {
             const usuario = await this._apiService.post('api/usuarios/', data).toPromise();
             this._bsModalRef.hide();
         } catch (error) {
+            this._bsModalRef.hide();
             console.log('Error', error);
         }
 

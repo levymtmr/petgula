@@ -6,5 +6,5 @@ export class Produto {
         public quantidade: number,
         public valor_compra: number,
         public valor_venda: number
-    ) {}
+    ) { }
 }

@@ -9,6 +9,7 @@ import {Caixa} from '../models/caixa.models';
 import {BsModalRef, BsModalService, ModalOptions} from 'ngx-bootstrap';
 import {AberturaCaixaComponent} from '../modals/abertura-caixa/abertura-caixa.component';
 import {Carrinho} from '../models/carrinho.models';
+import {CaixaService} from '../services/caixa.service';
 
 
 @Component({
@@ -36,7 +37,7 @@ export class VendasComponent implements OnInit {
 
     troco: number;
 
-    formaPagamento: boolean = false;
+    formaPagamento = false;
 
     bsModalRef: BsModalRef;
 
@@ -48,13 +49,12 @@ export class VendasComponent implements OnInit {
     };
     data_hj = moment().format('L');
 
-    @Input() caixa: EventEmitter<Caixa> = new EventEmitter();
-    @Output() mudouValorCaixa = new EventEmitter();
+    caixa: any;
 
-    vendaFinalizada: boolean = false;
+    vendaFinalizada = false;
 
 
-    constructor(private _apiService: ApiService, private _modalService: BsModalService) {
+    constructor(private _apiService: ApiService, private _modalService: BsModalService, private _caixaService: CaixaService) {
     }
 
     ngOnInit() {
@@ -74,7 +74,7 @@ export class VendasComponent implements OnInit {
 
         this.abrirCaixa();
 
-        this.getValorEspecie();
+        this.valorCaixa();
     }
 
 
@@ -108,7 +108,6 @@ export class VendasComponent implements OnInit {
     }
 
 
-
     async todosProdutos() {
         const produtos = await this._apiService.get('api/produtos/').toPromise();
         this.produtos = produtos;
@@ -135,7 +134,7 @@ export class VendasComponent implements OnInit {
 
     async verificarCarrinhoAtivo(id_cliente) {
         const carrinho: Carrinho = await this._apiService.get(`api/carrinho/?cliente=${id_cliente}&ativo=true`).toPromise();
-        if (carrinho['length'] != 0) {
+        if (carrinho['length'] !== 0) {
             this.carrinhoAtivo = carrinho[0];
             await this.ordensDoCarrinho();
         } else {
@@ -146,7 +145,7 @@ export class VendasComponent implements OnInit {
     async adicionarOrdemCarrinhoExistente(id_carrinho) {
         const ordens_antigas: Array<any> = [];
         this.carrinhoAtivo.ordem_produtos.forEach(element => {
-            ordens_antigas.push(element)
+            ordens_antigas.push(element);
         });
         const valor = this.ordemForm.get('valor').value;
         const novaOrdemCriada: OrdemProduto = await this.criarOrdem(valor);
@@ -198,7 +197,7 @@ export class VendasComponent implements OnInit {
             this.ordemForm.reset();
             return ordem;
         } catch (error) {
-            alert(error);
+            alert(error['detail']);
         }
 
     }
@@ -232,18 +231,14 @@ export class VendasComponent implements OnInit {
             this.resumoForm.reset();
             this.formaPagamento = false;
             this.verificarCarrinhoAtivo(this.cliente.id);
-            this.getValorEspecie();
+            this.valorCaixa();
             this.vendaFinalizada = true;
         } catch (error) {
             console.log('Error', error);
         }
-<<<<<<< HEAD
-        setTimeout(()=> { this.vendaFinalizada = false }, 3000);
-=======
         setTimeout(() => {
             this.vendaFinalizada = false;
         }, 3000);
->>>>>>> e7c9e227... Adicionado caculo da quantidade quando for passado apenas o valor do produto
     }
 
     tipoPagamento() {
@@ -271,7 +266,6 @@ export class VendasComponent implements OnInit {
     async abrirCaixa() {
         try {
             const caixa = await this._apiService.get(`api/caixa/?data=` + this.data_hj).toPromise();
-            console.log('caixaaaa', caixa);
             if (caixa.length === 0) {
                 this.bsModalRef = this._modalService.show(AberturaCaixaComponent, this.modalConfig);
             }
@@ -280,10 +274,8 @@ export class VendasComponent implements OnInit {
         }
     }
 
-    async getValorEspecie() {
-        const caixa: Caixa = await this._apiService.get('api/fechar-caixa/?data=' + this.data_hj).toPromise();
-        this.caixa = caixa[0].valor_especie;
-        this.mudouValorCaixa.emit(this.caixa);
+    async valorCaixa() {
+        this.caixa = this._caixaService.getValorEspecie();
     }
 
 }

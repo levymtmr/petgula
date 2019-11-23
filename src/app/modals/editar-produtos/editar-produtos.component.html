@@ -1,0 +1,20 @@
+<div class="modal-header">
+  <h5>Atualizar Produto</h5>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="fecharModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="produtoForm">
+    <label for="">Nome</label>
+    <input class="form-control" formControlName="nome" type="text" />
+    <label for="">Quantidade</label>
+    <input class="form-control" formControlName="quantidade" type="text" />
+    <label for="">Valor Comprar</label>
+    <input class="form-control" formControlName="valor_compra" type="text" />
+    <label for="">Valor Venda</label>
+    <input class="form-control" formControlName="valor_venda" type="text" />
+  </form>
+  <br />
+  <button class="btn btn-secondary btn-lg btn-block" (click)='atualizarProduto()'>Atualizar</button>
+</div>

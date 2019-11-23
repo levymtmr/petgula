@@ -21,11 +21,8 @@ import { HomeComponent } from './home/home.component';
 import { ResumoComponent } from './resumo/resumo.component';
 import { AlterarClientesComponent } from './modals/alterar-clientes/alterar-clientes.component';
 import { RegistrarUsuarioComponent } from './modals/registrar-usuario/registrar-usuario.component';
-<<<<<<< HEAD
-=======
 import { EditarProdutosComponent } from './modals/editar-produtos/editar-produtos.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
->>>>>>> e7c9e227... Adicionado caculo da quantidade quando for passado apenas o valor do produto
 
 
 @NgModule({
@@ -40,9 +37,10 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
         HomeComponent,
         ResumoComponent,
         AlterarClientesComponent,
-        RegistrarUsuarioComponent
+        RegistrarUsuarioComponent,
+        EditarProdutosComponent
     ],
-    entryComponents: [AberturaCaixaComponent, AlterarClientesComponent, RegistrarUsuarioComponent],
+    entryComponents: [AberturaCaixaComponent, AlterarClientesComponent, RegistrarUsuarioComponent, EditarProdutosComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,

@@ -4,6 +4,9 @@ import {ApiService} from '../services/api.service';
 import {Cliente} from '../models/cliente.models';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {AlterarClientesComponent} from '../modals/alterar-clientes/alterar-clientes.component';
+import { ClienteService } from '../services/cliente.service';
+import { User } from '../models/user.models';
+import { TokenService } from '../services/token.service';
 
 @Component({
     selector: 'app-clientes',
@@ -16,6 +19,7 @@ export class ClientesComponent implements OnInit {
     clienteForm: FormGroup;
     clienteCriado = false;
     clientes: Cliente;
+    operador: User;
 
 
     bsModalRef: BsModalRef;
@@ -26,12 +30,21 @@ export class ClientesComponent implements OnInit {
         ignoreBackdropClick: true
     };
 
-    constructor(private _apiService: ApiService, private _modalService: BsModalService) {
+    constructor(
+        private _apiService: ApiService, 
+        private _modalService: BsModalService,
+        private _clienteService: ClienteService,
+        private _tokenService: TokenService) {
     }
 
-    ngOnInit() {
-        this.todosClientes();
+    async ngOnInit() {
         this.createClienteForm();
+        this.todosClientes();
+        this._clienteService.mudouArrayClientes.subscribe(clientes => {
+            this.clientes = clientes;
+        });
+       
+        this.operador =  await this._tokenService.decoderToken();
     }
 
     createClienteForm() {
@@ -42,14 +55,14 @@ export class ClientesComponent implements OnInit {
         });
     }
 
-    async criarCliente() {
+    async novoCliente() {
         try {
             const data = {
                 nome: this.clienteForm.get('nome').value,
                 endereco: this.clienteForm.get('endereco').value,
                 telefone: this.clienteForm.get('telefone').value
-            }
-            const cliente: Cliente = await this._apiService.post('api/clientes/', data).toPromise();
+            };
+            const cliente: Cliente = await this._clienteService.criarCliente(data);
             this.clienteCriado = true;
             this.clienteForm.reset();
         } catch (error) {
@@ -73,14 +86,14 @@ export class ClientesComponent implements OnInit {
 
 
     async alterarCliente(id_cliente) {
-        const initialState = {
-            cliente: id_cliente
-        };
-        // inviar dados para o outro componente, componente da modal!!!
-        // Para ser possível fazer o patch alterando os dados
-        // Fazer a autenticacao, pois só será possível alterar os dados quem for usuario admin
-        this.bsModalRef = this._modalService.show(AlterarClientesComponent, {initialState});
-
+        if (this.operador.is_staff) {
+            const initialState = {
+                cliente: id_cliente
+            };
+            this.bsModalRef = this._modalService.show(AlterarClientesComponent, {initialState});
+        } else {
+            alert('Você não tem permissão para alterar um produto');
+          }
     }
 
 

@@ -41,7 +41,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let produto of produtos; let i = index">
+                <tr *ngFor="let produto of produtos; let i = index" (click)="chamaModalEditarProduto(produto.id)">
                     <th scope="row">{{i + 1}}</th>
                     <td>{{produto.nome}}</td>
                     <td>{{produto.quantidade}}</td>
