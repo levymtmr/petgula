@@ -75,6 +75,8 @@ export class VendasComponent implements OnInit {
         this.abrirCaixa();
 
         this.valorCaixa();
+
+        this.transformaValorEmQuantidade();
     }
 
 
@@ -176,20 +178,24 @@ export class VendasComponent implements OnInit {
         }
     }
 
-    async transformaValorEmQuantidade(valor, id_produto) {
-        const produto: Produto = await this._apiService.get(`api/produtos/${id_produto}/`).toPromise();
-        const valor_transformado =  ((valor * 1000) / produto.valor_venda) / 1000;
-        this.ordemForm.get('quantidade').setValue(valor_transformado);
-        return valor_transformado.toFixed(2);
+    async transformaValorEmQuantidade() {
+        this.ordemForm.get('valor').valueChanges.subscribe(async valor => {
+           const produto = await this.produtoPorId(this.ordemForm.get('produto').value);
+           const quantidade = ((valor * 1000) / produto.valor_venda) / 1000;
+           quantidade.toFixed(3);
+           this.ordemForm.get('quantidade').setValue(quantidade);
+
+
+        });
     }
 
     async criarOrdem(valor) {
         const produto = await this.produtoPorId(this.ordemForm.get('produto').value);
-        const quantidade = await this.transformaValorEmQuantidade(valor, produto.id);
+        // const quantidade = await this.transformaValorEmQuantidade(valor, produto.id);
         try {
             const data = {
                 produto: produto,
-                quantidade: quantidade,
+                quantidade: this.ordemForm.get('quantidade').value,
                 unidade: this.ordemForm.get('unidade').value
             };
             const ordem: OrdemProduto = await this._apiService.post('api/ordem-produtos/', data).toPromise();
