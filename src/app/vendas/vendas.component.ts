@@ -149,8 +149,7 @@ export class VendasComponent implements OnInit {
         this.carrinhoAtivo.ordem_produtos.forEach(element => {
             ordens_antigas.push(element);
         });
-        const valor = this.ordemForm.get('valor').value;
-        const novaOrdemCriada: OrdemProduto = await this.criarOrdem(valor);
+        const novaOrdemCriada: OrdemProduto = await this.criarOrdem();
         ordens_antigas.push(novaOrdemCriada.id);
         const data = {
             ordem_produtos: ordens_antigas
@@ -171,7 +170,7 @@ export class VendasComponent implements OnInit {
     async adicionarOrdemCarrinho(valor) {
         await this.verificarCarrinhoAtivo(this.cliente.id);
         if (this.carrinhoAtivo == null) {
-            const novaOrdem: OrdemProduto = await this.criarOrdem(valor);
+            const novaOrdem: OrdemProduto = await this.criarOrdem();
             await this.criarCarrinho(novaOrdem);
         } else {
             const ordemParaAdicionar = await this.adicionarOrdemCarrinhoExistente(this.carrinhoAtivo.id);
@@ -182,16 +181,14 @@ export class VendasComponent implements OnInit {
         this.ordemForm.get('valor').valueChanges.subscribe(async valor => {
            const produto = await this.produtoPorId(this.ordemForm.get('produto').value);
            const quantidade = ((valor * 1000) / produto.valor_venda) / 1000;
-           quantidade.toFixed(3);
-           this.ordemForm.get('quantidade').setValue(quantidade);
+           this.ordemForm.get('quantidade').setValue(quantidade.toFixed(3));
 
 
         });
     }
 
-    async criarOrdem(valor) {
+    async criarOrdem() {
         const produto = await this.produtoPorId(this.ordemForm.get('produto').value);
-        // const quantidade = await this.transformaValorEmQuantidade(valor, produto.id);
         try {
             const data = {
                 produto: produto,
