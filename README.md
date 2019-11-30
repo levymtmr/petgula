@@ -1,4 +1,8 @@
-# Petgula
+ ![logo](https://github.com/levymtmr/petgula/blob/master/src/assets/petgula.png)   
+
+
+
+# Petgula    
 ![resumos](https://github.com/levymtmr/petgula/blob/master/resumos.png)
 ![login](https://github.com/levymtmr/petgula/blob/master/login.png) ![sidebar](https://github.com/levymtmr/petgula/blob/master/sidebar.png) ![caixa](https://github.com/levymtmr/petgula/blob/master/abertura.png) ![editar-produto](https://github.com/levymtmr/petgula/blob/master/editar-produtos.png)
 
