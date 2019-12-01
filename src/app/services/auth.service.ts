@@ -32,6 +32,9 @@ export class AuthService {
             this.setSession(token['access']);
             await this._router.navigate(['vendas']);
         } catch (error) {
+            if (error['detail'] === "No active account found with the given credentials") {
+                alert("Usuario ou Senha não encontrados");
+            }
             console.log("Error", error);
         }
 

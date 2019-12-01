@@ -291,7 +291,6 @@ export class VendasComponent implements OnInit {
         const data_hj = moment().format('L');
         const produtosVendidos: Produto = await this._apiService.get(`api/ordem-produtos/?data=${data_hj}`).toPromise();
         this.vendasDoDia = produtosVendidos;
-        
     }
 
 }
