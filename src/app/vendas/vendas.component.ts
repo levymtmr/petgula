@@ -1,15 +1,16 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ApiService} from '../services/api.service';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Produto} from '../models/produto.models';
-import {Cliente} from '../models/cliente.models';
-import {OrdemProduto} from '../models/ordem-produto.models';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ApiService } from '../services/api.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Produto } from '../models/produto.models';
+import { Cliente } from '../models/cliente.models';
+import { OrdemProduto } from '../models/ordem-produto.models';
 import * as moment from 'moment';
-import {Caixa} from '../models/caixa.models';
-import {BsModalRef, BsModalService, ModalOptions} from 'ngx-bootstrap';
-import {AberturaCaixaComponent} from '../modals/abertura-caixa/abertura-caixa.component';
-import {Carrinho} from '../models/carrinho.models';
-import {CaixaService} from '../services/caixa.service';
+import { Caixa } from '../models/caixa.models';
+import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap';
+import { AberturaCaixaComponent } from '../modals/abertura-caixa/abertura-caixa.component';
+import { Carrinho } from '../models/carrinho.models';
+import { CaixaService } from '../services/caixa.service';
+import { Venda } from '../models/venda.models';
 
 
 @Component({
@@ -40,6 +41,8 @@ export class VendasComponent implements OnInit {
     formaPagamento = false;
 
     bsModalRef: BsModalRef;
+
+    vendasDoDia: Produto;
 
     modalConfig: ModalOptions = {
         animated: true,
@@ -77,6 +80,8 @@ export class VendasComponent implements OnInit {
         this.valorCaixa();
 
         this.transformaValorEmQuantidade();
+
+        this.vendasPorDia();
     }
 
 
@@ -179,9 +184,9 @@ export class VendasComponent implements OnInit {
 
     async transformaValorEmQuantidade() {
         this.ordemForm.get('valor').valueChanges.subscribe(async valor => {
-           const produto = await this.produtoPorId(this.ordemForm.get('produto').value);
-           const quantidade = ((valor * 1000) / produto.valor_venda) / 1000;
-           this.ordemForm.get('quantidade').setValue(quantidade.toFixed(3));
+            const produto = await this.produtoPorId(this.ordemForm.get('produto').value);
+            const quantidade = ((valor * 1000) / produto.valor_venda) / 1000;
+            this.ordemForm.get('quantidade').setValue(quantidade.toFixed(3));
 
 
         });
@@ -235,6 +240,7 @@ export class VendasComponent implements OnInit {
             this.formaPagamento = false;
             this.verificarCarrinhoAtivo(this.cliente.id);
             this.valorCaixa();
+            this.vendasPorDia();
             this.vendaFinalizada = true;
         } catch (error) {
             console.log('Error', error);
@@ -279,6 +285,13 @@ export class VendasComponent implements OnInit {
 
     async valorCaixa() {
         this.caixa = this._caixaService.getValorEspecie();
+    }
+
+    async vendasPorDia() {
+        const data_hj = moment().format('L');
+        const produtosVendidos: Produto = await this._apiService.get(`api/ordem-produtos/?data=${data_hj}`).toPromise();
+        this.vendasDoDia = produtosVendidos;
+        
     }
 
 }
