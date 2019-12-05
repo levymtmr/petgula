@@ -19,7 +19,7 @@ export class ProdutosComponent implements OnInit {
     // tslint:disable-next-line: no-shadowed-variable
     produtoForm: FormGroup;
     produtoCriado = false;
-    produtos: Array<Produto> = [];
+    produtos: any;
     operador: User;
 
     asyncSelected: string;
@@ -52,10 +52,6 @@ export class ProdutosComponent implements OnInit {
         this.createProdutoForm();
         this.createSearchForm();
         this.todosProdutos();
-
-        this._produtoService.mudouArrayProdutos.subscribe(produtos => {
-            this.produtos = produtos;
-        });
         this.operador = await this._tokenService.decoderToken();
     }
 
@@ -95,8 +91,8 @@ export class ProdutosComponent implements OnInit {
     }
 
     async todosProdutos() {
-        await this._produtoService.todosProdutos();
-        this.produtos.push(this._produtoService.produtos);
+        const produtos = await this._apiService.get('api/produtos').toPromise();
+        this.produtos = produtos;
     }
 
     chamaModalEditarProduto(id) {
@@ -115,13 +111,5 @@ export class ProdutosComponent implements OnInit {
             this.produtos = res;
             return res;
         });
-    }
-
-    changeTypeaheadLoading(e: boolean): void {
-        this.typeaheadLoading = e;
-    }
-
-    typeaheadOnSelect(e: TypeaheadMatch): void {
-        console.log('Selected value: ', e.value);
     }
 }
