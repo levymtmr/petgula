@@ -24,9 +24,6 @@
             <input [(ngModel)]="asyncSelected"
                    [typeaheadAsync]="true"
                    [typeahead]="dataSource"
-                   (typeaheadLoading)="changeTypeaheadLoading($event)"
-                   (typeaheadOnSelect)="typeaheadOnSelect($event)"
-                   [typeaheadOptionsLimit]="7"
                    typeaheadOptionField="name"
                    placeholder="Nome do produto"
                    class="form-control typeahead-produtos">
