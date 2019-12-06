@@ -21,11 +21,11 @@ export class ProdutosComponent implements OnInit {
     produtoCriado = false;
     produtos: any;
     operador: User;
-
-    asyncSelected: string;
     typeaheadLoading: boolean;
     typeaheadNoResults: boolean;
+    produtosCadastrados: Array<any> = [];
     dataSource: Observable<any>;
+    asyncSelected: string;
 
     selected: string;
 
@@ -45,7 +45,11 @@ export class ProdutosComponent implements OnInit {
         private _tokenService: TokenService) {
         this.dataSource = Observable.create((observer: any) => {
             observer.next(this.asyncSelected);
-        }).pipe(mergeMap((search: string) => this.pesquisarProdutos(search)));
+        })
+            .pipe(
+                mergeMap((search: string) => this.pesquisaProdutosCadastrados(search))
+            );
+
     }
 
     async ngOnInit() {
@@ -53,6 +57,7 @@ export class ProdutosComponent implements OnInit {
         this.createSearchForm();
         this.todosProdutos();
         this.operador = await this._tokenService.decoderToken();
+        this.carregarProdutosCadastrados();
     }
 
     createSearchForm() {
@@ -106,10 +111,43 @@ export class ProdutosComponent implements OnInit {
         }
     }
 
-    async pesquisarProdutos(search) {
-        this._apiService.get(`api/produtos?search=${search}`).subscribe(res => {
+    async pesquisarProdutosTabela(event: any) {
+        this._apiService.get(`api/produtos?search=${event.target.value}`).subscribe(res => {
             this.produtos = res;
             return res;
         });
     }
+
+    async carregarProdutosCadastrados(search = '') {
+        const produtos = await this._apiService.get(`api/produtos?search=${search}`).toPromise();
+        this.produtosCadastrados.length = 0;
+        this.produtosCadastrados = produtos;
+        // return produtos;
+        // this._apiService.get(`api/produtos?search=${search}`).subscribe(res => {
+        //     this.produtosCadastrados.length = 0;
+        //     this.produtosCadastrados.push(res);
+        // });
+    }
+
+    pesquisaProdutosCadastrados(search: string) {
+        const query = new RegExp(search, 'i');
+
+        this.carregarProdutosCadastrados(search);
+        return of(
+            this.produtosCadastrados.filter((items: any) => {
+                return query.test(items['nome']);
+            })
+        );
+
+    }
+
+    changeTypeaheadLoading(e: boolean): void {
+        this.typeaheadLoading = e;
+    }
+
+    typeaheadOnSelect(e: TypeaheadMatch): void {
+        console.log('Selected value: ', e.item);
+    }
+
+
 }
