@@ -26,6 +26,7 @@ export class ProdutosComponent implements OnInit {
     produtosCadastrados: Array<any> = [];
     dataSource: Observable<any>;
     asyncSelected: string;
+    itensCadastrados: Array<any> = [];
 
     selected: string;
 
@@ -120,18 +121,13 @@ export class ProdutosComponent implements OnInit {
 
     async carregarProdutosCadastrados(search = '') {
         const produtos = await this._apiService.get(`api/produtos?search=${search}`).toPromise();
-        this.produtosCadastrados.length = 0;
+        // this.produtosCadastrados.length = 0;
         this.produtosCadastrados = produtos;
-        // return produtos;
-        // this._apiService.get(`api/produtos?search=${search}`).subscribe(res => {
-        //     this.produtosCadastrados.length = 0;
-        //     this.produtosCadastrados.push(res);
-        // });
+
     }
 
     pesquisaProdutosCadastrados(search: string) {
         const query = new RegExp(search, 'i');
-
         this.carregarProdutosCadastrados(search);
         return of(
             this.produtosCadastrados.filter((items: any) => {
@@ -146,6 +142,7 @@ export class ProdutosComponent implements OnInit {
     }
 
     typeaheadOnSelect(e: TypeaheadMatch): void {
+        this.itensCadastrados.push(e.item);
         console.log('Selected value: ', e.item);
     }
 

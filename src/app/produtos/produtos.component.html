@@ -45,7 +45,7 @@
     </div>
 </div>
 <div class="container">
-    <h5>Adicionar Quantidades Nos Produtos</h5>
+    <h5>Escolher Produtos Existentes</h5>
     <div class="row">
         <div class="col">
             <input type="text"
@@ -58,6 +58,18 @@
                    typeaheadOptionField="nome"
                    class="form-control">
             <div *ngIf="typeaheadLoading">Loading</div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="container">
+    <h5>Ordem de compras</h5>
+    <div class="row">
+        <div class="col">
+            <ul>
+                <li *ngFor="let item of itensCadastrados; let i = index">{{item['nome']}}</li>
+
+            </ul>
         </div>
     </div>
 </div>
