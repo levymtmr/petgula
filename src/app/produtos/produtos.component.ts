@@ -142,6 +142,10 @@ export class ProdutosComponent implements OnInit {
     }
 
     typeaheadOnSelect(e: TypeaheadMatch): void {
+        const compra = {
+            'produto': e.item,
+
+        };
         this.itensCadastrados.push(e.item);
         console.log('Selected value: ', e.item);
     }
