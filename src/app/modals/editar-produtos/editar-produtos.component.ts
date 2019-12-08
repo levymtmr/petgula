@@ -62,4 +62,12 @@ export class EditarProdutosComponent implements OnInit {
         this._bsModalRef.hide();
     }
 
+    async deletarProduto() {
+        try {
+            const produto = await this._apiService.delete(`api/produtos/${this._produtoService.id_produto}/`).toPromise();
+        } catch (error) {
+          console.log('Error', error);
+        }
+    }
+
 }

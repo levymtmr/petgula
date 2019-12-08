@@ -183,6 +183,7 @@ export class VendasComponent implements OnInit {
            const produto = await this.produtoPorId(this.ordemForm.get('produto').value);
            const quantidade = ((valor * 1000) / produto.valor_venda) / 1000;
            this.ordemForm.get('quantidade').setValue(quantidade.toFixed(3));
+
         });
     }
 
