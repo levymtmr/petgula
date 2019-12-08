@@ -184,11 +184,17 @@ export class VendasComponent implements OnInit {
 
     async transformaValorEmQuantidade() {
         this.ordemForm.get('valor').valueChanges.subscribe(async valor => {
+<<<<<<< HEAD
             const produto = await this.produtoPorId(this.ordemForm.get('produto').value);
             const quantidade = ((valor * 1000) / produto.valor_venda) / 1000;
             this.ordemForm.get('quantidade').setValue(quantidade.toFixed(3));
 
 
+=======
+           const produto = await this.produtoPorId(this.ordemForm.get('produto').value);
+           const quantidade = ((valor * 1000) / produto.valor_venda) / 1000;
+           this.ordemForm.get('quantidade').setValue(quantidade.toFixed(3));
+>>>>>>> develop
         });
     }
 

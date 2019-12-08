@@ -19,7 +19,7 @@ export class SidebarComponent implements OnInit {
     data_hj = moment().format('L');
     usuario: any;
 
-    caixa: any;
+    caixa: any = 0;
     
     constructor(private _apiService: ApiService,
                 private  _authService: AuthService,
