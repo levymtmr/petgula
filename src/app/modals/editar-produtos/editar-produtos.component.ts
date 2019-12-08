@@ -61,7 +61,7 @@ export class EditarProdutosComponent implements OnInit {
     fecharModal() {
         this._bsModalRef.hide();
     }
-<<<<<<< HEAD
+
 
     async deletarProduto() {
         try {
@@ -70,7 +70,5 @@ export class EditarProdutosComponent implements OnInit {
           console.log('Error', error);
         }
     }
-=======
->>>>>>> develop
 
 }
