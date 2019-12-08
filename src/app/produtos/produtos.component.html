@@ -21,16 +21,8 @@
         </div>
         <div class="col-sm-4">
             <h3>Produtos</h3>
-            <input [(ngModel)]="asyncSelected"
-                   [typeaheadAsync]="true"
-                   [typeahead]="dataSource"
-                   (typeaheadLoading)="changeTypeaheadLoading($event)"
-                   (typeaheadOnSelect)="typeaheadOnSelect($event)"
-                   [typeaheadOptionsLimit]="7"
-                   typeaheadOptionField="name"
-                   placeholder="Nome do produto"
+            <input (keyup)="pesquisarProdutosTabela($event)"
                    class="form-control typeahead-produtos">
-            <div *ngIf="typeaheadLoading">Loading</div>
             <table class="table table-striped tb-produtos">
                 <thead>
                 <tr>
@@ -51,6 +43,45 @@
             </table>
         </div>
     </div>
+</div>
+<div class="container">
+    <h5>Escolher Produtos Existentes</h5>
+    <div class="row">
+        <div class="col">
+            <input type="text"
+                   [(ngModel)]="asyncSelected"
+                   [typeaheadAsync]="true"
+                   [typeahead]="dataSource"
+                   (typeaheadLoading)="changeTypeaheadLoading($event)"
+                   (typeaheadOnSelect)="typeaheadOnSelect($event)"
+                   [typeaheadOptionsLimit]="7"
+                   typeaheadOptionField="nome"
+                   class="form-control">
+            <div *ngIf="typeaheadLoading">Loading</div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="container">
+    <h5>Ordem de compras</h5>
+    <div class="row">
+        <div class="col">
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-action list-group-item-light"
+                    *ngFor="let item of itensCadastrados; let i = index">
+                    <div class="row">
+                        {{item['nome']}}
+                        <input type="text" class="form-control input-compras" placeholder="quantidade">
+                        <input type="text" class="form-control input-compras" placeholder="valor compra">
+                        <input type="text" class="form-control input-compras" placeholder="valor venda">
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <button type="button" class="btn btn-secondary btn-lg btn-block" *ngIf="itensCadastrados.length !== 0"> Fechar
+        Compra
+    </button>
 </div>
 
 

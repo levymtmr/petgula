@@ -24,7 +24,4 @@ export class ProdutoService {
         this.mudouArrayProdutos.emit(produtos);
         return produtos;
       }
-    
-
-
 }
