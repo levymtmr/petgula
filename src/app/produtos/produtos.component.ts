@@ -153,13 +153,12 @@ export class ProdutosComponent implements OnInit {
     }
 
     typeaheadOnSelect(e: TypeaheadMatch): void {
-
         this.itensCadastrados.push(e.item);
-        console.log('Selected value: ', e.item);
     }
 
     async fecharCompra() {
-        // Solucao para adicionar apenas uma compra por vez, a estrutura do projeto inviabilizou de fazer a melhor forma
+        // Solucao para adicionar apenas uma compra por vez
+        // a estrutura do projeto inviabilizou de fazer a melhor forma
         const compra = {
             'produto': this.itensCadastrados[0],
             'quantidade': this.compraForm.get('quantidade').value,
@@ -167,7 +166,7 @@ export class ProdutosComponent implements OnInit {
             'valor_venda': this.compraForm.get('valor_venda').value
         };
         try {
-            const FazerCompra = await this._apiService.post('api/estoques/', compra).toPromise();
+            await this._apiService.post('api/estoques/', compra).toPromise();
             this.compraForm.reset();
             this.itensCadastrados.length = 0;
             this.todosProdutos();
@@ -175,6 +174,4 @@ export class ProdutosComponent implements OnInit {
             console.log("Error", error);
         }
     }
-
-
 }
