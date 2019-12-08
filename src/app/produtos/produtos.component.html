@@ -66,20 +66,25 @@
     <h5>Ordem de compras</h5>
     <div class="row">
         <div class="col">
-            <ul class="list-group">
-                <li class="list-group-item list-group-item-action list-group-item-light"
-                    *ngFor="let item of itensCadastrados; let i = index">
-                    <div class="row">
-                        {{item['nome']}}
-                        <input type="text" class="form-control input-compras" placeholder="quantidade">
-                        <input type="text" class="form-control input-compras" placeholder="valor compra">
-                        <input type="text" class="form-control input-compras" placeholder="valor venda">
-                    </div>
-                </li>
-            </ul>
+            <form [formGroup]="compraForm">
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-action list-group-item-light"
+                        *ngFor="let item of itensCadastrados; let i = index">
+                        <div class="row">
+                            {{item['nome']}}
+                            <input type="text" class="form-control input-compras" placeholder="quantidade"
+                                   formControlName="quantidade">
+                            <input type="text" class="form-control input-compras" placeholder="valor compra"
+                                   formControlName="valor_compra">
+                            <input type="text" class="form-control input-compras" placeholder="valor venda"
+                                   formControlName="valor_venda">
+                        </div>
+                    </li>
+                </ul>
+            </form>
         </div>
     </div>
-    <button type="button" class="btn btn-secondary btn-lg btn-block" *ngIf="itensCadastrados.length !== 0"> Fechar
+    <button type="button" class="btn btn-secondary btn-lg btn-block" (click)="fecharCompra()" *ngIf="itensCadastrados.length !== 0"> Fechar
         Compra
     </button>
 </div>

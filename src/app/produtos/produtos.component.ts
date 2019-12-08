@@ -27,6 +27,8 @@ export class ProdutosComponent implements OnInit {
     dataSource: Observable<any>;
     asyncSelected: string;
     itensCadastrados: Array<any> = [];
+    compraForm: FormGroup;
+    compraFinalizada: boolean = false;
 
     selected: string;
 
@@ -54,16 +56,26 @@ export class ProdutosComponent implements OnInit {
     }
 
     async ngOnInit() {
+        this.createCompraForm();
         this.createProdutoForm();
         this.createSearchForm();
         this.todosProdutos();
         this.operador = await this._tokenService.decoderToken();
         this.carregarProdutosCadastrados();
+
     }
 
     createSearchForm() {
         this.searchForm = new FormGroup({
             search: new FormControl(null, Validators.required)
+        });
+    }
+
+    createCompraForm() {
+        this.compraForm = new FormGroup({
+            quantidade: new FormControl(null, Validators.required),
+            valor_compra: new FormControl(null, Validators.required),
+            valor_venda: new FormControl(null, Validators.required)
         });
     }
 
@@ -121,7 +133,6 @@ export class ProdutosComponent implements OnInit {
 
     async carregarProdutosCadastrados(search = '') {
         const produtos = await this._apiService.get(`api/produtos?search=${search}`).toPromise();
-        // this.produtosCadastrados.length = 0;
         this.produtosCadastrados = produtos;
 
     }
@@ -142,12 +153,27 @@ export class ProdutosComponent implements OnInit {
     }
 
     typeaheadOnSelect(e: TypeaheadMatch): void {
-        const compra = {
-            'produto': e.item,
 
-        };
         this.itensCadastrados.push(e.item);
         console.log('Selected value: ', e.item);
+    }
+
+    async fecharCompra() {
+        // Solucao para adicionar apenas uma compra por vez, a estrutura do projeto inviabilizou de fazer a melhor forma
+        const compra = {
+            'produto': this.itensCadastrados[0],
+            'quantidade': this.compraForm.get('quantidade').value,
+            'valor_compra': this.compraForm.get('valor_compra').value,
+            'valor_venda': this.compraForm.get('valor_venda').value
+        };
+        try {
+            const FazerCompra = await this._apiService.post('api/estoques/', compra).toPromise();
+            this.compraForm.reset();
+            this.itensCadastrados.length = 0;
+            this.todosProdutos();
+        } catch (error) {
+            console.log("Error", error);
+        }
     }
 
 
