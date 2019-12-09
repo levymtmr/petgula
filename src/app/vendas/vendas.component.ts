@@ -172,7 +172,7 @@ export class VendasComponent implements OnInit {
         }
     }
 
-    async adicionarOrdemCarrinho(valor) {
+    async adicionarOrdemCarrinho() {
         await this.verificarCarrinhoAtivo(this.cliente.id);
         if (this.carrinhoAtivo == null) {
             const novaOrdem: OrdemProduto = await this.criarOrdem();
@@ -187,7 +187,6 @@ export class VendasComponent implements OnInit {
             const produto = await this.produtoPorId(this.ordemForm.get('produto').value);
             const quantidade = ((valor * 1000) / produto.valor_venda) / 1000;
             this.ordemForm.get('quantidade').setValue(quantidade.toFixed(3));
-
         });
     }
 
@@ -265,7 +264,10 @@ export class VendasComponent implements OnInit {
     async deletarOrdem(id_ordem) {
         try {
             const ordem = await this._apiService.delete(`api/ordem-produtos/${id_ordem}/`).toPromise();
-            this.verificarCarrinhoAtivo(this.cliente.id);
+            await this.verificarCarrinhoAtivo(this.cliente.id);
+            if (this.produtoOrdems.length === 0) {
+                this.carrinhoAtivo = null;
+            }
         } catch (error) {
             console.log(error);
         }

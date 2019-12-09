@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ApiService} from "../../services/api.service";
-import { ClienteService } from 'src/app/services/cliente.service';
+import {ClienteService} from 'src/app/services/cliente.service';
 
 @Component({
     selector: 'app-alterar-clientes',
@@ -31,7 +31,6 @@ export class AlterarClientesComponent implements OnInit {
         this.clienteForm.get('nome').setValue(cliente.nome);
         this.clienteForm.get('endereco').setValue(cliente.endereco);
         this.clienteForm.get('telefone').setValue(cliente.telefone);
-
     }
 
     createFormCliente() {
@@ -55,6 +54,18 @@ export class AlterarClientesComponent implements OnInit {
 
     fecharModal() {
         this._bsModalRef.hide();
-      }
+    }
+
+
+    async deletarCliente() {
+        try {
+             const id_cliente = this._modalService.config.initialState['cliente'];
+            const cliente = await this._apiService.delete(`api/clientes/${id_cliente}/`).toPromise();
+            this._clienteService.todosClientes();
+            this._bsModalRef.hide();
+        } catch (error) {
+            console.log('Error', error);
+        }
+    }
 
 }

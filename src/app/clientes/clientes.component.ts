@@ -43,13 +43,12 @@ export class ClientesComponent implements OnInit {
         this._clienteService.mudouArrayClientes.subscribe(clientes => {
             this.clientes = clientes;
         });
-       
         this.operador =  await this._tokenService.decoderToken();
     }
 
     createClienteForm() {
         this.clienteForm = new FormGroup({
-            nome: new FormControl(null, Validators.required),
+            nome: new FormControl('', Validators.required),
             endereco: new FormControl(null, Validators.required),
             telefone: new FormControl(null, Validators.required)
         });
